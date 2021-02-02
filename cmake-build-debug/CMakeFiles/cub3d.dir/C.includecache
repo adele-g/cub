@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/lnymella/CLionProjects/cub3d/cub3d.h
+stdio.h
+-
+stdlib.h
+-
+mlx.h
+-
+
+/Users/lnymella/CLionProjects/cub3d/main.c
+cub3d.h
+/Users/lnymella/CLionProjects/cub3d/cub3d.h
+math.h
+/Users/lnymella/CLionProjects/cub3d/math.h
+
+/usr/local/include/mlx.h
+
