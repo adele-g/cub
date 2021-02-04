@@ -16,6 +16,20 @@ typedef struct  s_data
 	int         endian;
 }               t_data;
 
+typedef struct s_texture
+{
+	void        **img;
+	char        **addr;
+	int         *bits_per_pixel;
+	int         *line_length;
+	int         *endian;
+	int			*width;
+	int 		*height;
+	float 		coef;
+	char		*north;
+
+}				t_texture;
+
 typedef struct		s_var
 {
 	int screen_width;
@@ -63,6 +77,9 @@ typedef struct		s_var
 	double step;
 	double tex_pos;
 	int tex_y;
+	char *dst;
+	char *src;
+	int i;
 
 
 }					t_var;
@@ -72,6 +89,7 @@ typedef struct s_all
 
 	t_data	mlx;
 	t_var 	var;
+	t_texture text;
 
 }				t_all;
 

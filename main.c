@@ -1,5 +1,6 @@
 #include "cub3d.h"
 #include "math.h"
+#include <string.h>
 
 void            my_mlx_pixel_put(t_all *all, int x, int y, int color)
 {
@@ -71,7 +72,6 @@ void 	draw(t_all *all)
 		else
 			all->var.perp_wall_dist = (all->var.map_y - all->var.pos_y + (1 - all->var.step_y) / 2) / all->var.ray_dir_y;
 
-		printf("%f   %d\n", all->var.perp_wall_dist, all->var.side);
 		all->var.line_height = (int)(all->var.screen_height / all->var.perp_wall_dist);
 		all->var.draw_start = -all->var.line_height / 2 + all->var.screen_height / 2;
 		if (all->var.draw_start < 0)
@@ -88,40 +88,68 @@ void 	draw(t_all *all)
 			all->var.wall_x = all->var.pos_x + all->var.perp_wall_dist * all->var.ray_dir_x;
 		all->var.wall_x -= floor(all->var.wall_x);
 
-
-		all->var.tex_x = (int)(all->var.wall_x * (double)all->var.tex_width);
+		all->var.tex_x = (int)(all->var.wall_x * (float)(all->text.width[0]));
+//		all->var.tex_x = (int)(all->var.wall_x * (double)all->var.tex_width);
 		if (all->var.side == 0 && all->var.ray_dir_x > 0)
 			all->var.tex_x = all->var.tex_width - all->var.tex_x - 1;
 		if (all->var.side == 1 && all->var.ray_dir_y < 0)
 			all->var.tex_x = all->var.tex_width - all->var.tex_width - all->var.tex_x - 1;
 		all->var.step = 1.0 * all->var.tex_height / all->var.line_height;
 		all->var.tex_pos = (all->var.draw_start - all->var.screen_height / 2 + all->var.line_height / 2) * all->var.step;
-		int y = all->var.draw_start;
-		while (y < all->var.draw_end)
+		//int y = all->var.draw_start;
+		int y = 0;
+		all->var.i = 0;
+
+		printf("%f\n", all->var.wall_x);
+		while (y < all->var.screen_height)
 		{
-			all->var.tex_y = (int)all->var.tex_pos & (all->var.tex_height - 1);
-			all->var.tex_pos += all->var.step;
-			all->var.color = all->var.texture[(int)all->var.tex_num][(int)(all->var.tex_height * all->var.tex_y + all->var.tex_x)];
-			if (all->var.side == 1)
-				all->var.color = (all->var.color >> 1) & 8355711;
-			all->var.buf[y][i] = all->var.color;
+			if (y < all->var.draw_start)
+			{
+				my_mlx_pixel_put(all, i, y, all->var.color);
+			}
+			else if (y >= all->var.draw_start && y <= all->var.draw_end)
+			{
+				all->text.coef = (float)all->var.line_height / (float)all->text.height[all->var.i];
+				all->var.tex_y = (float)(y - all->var.draw_start);
+				all->var.tex_y = all->var.tex_y / all->text.coef;
+
+				if (all->var.tex_y >= all->text.height[0])
+					all->var.tex_y = all->text.height[0] - 1;
+				all->var.dst = all->text.addr[0] + (y * (int)all->text.line_length[0] + i * ((int)all->text.bits_per_pixel[0] / 8));
+				all->var.src = all->text.addr[0] + (char)((int)all->var.tex_y * all->text.line_length[0] + all->var.tex_x * ((int)all->text.bits_per_pixel[0] / 8));
+				printf("%f %d %d \n", all->var.tex_x, all->var.tex_y, all->text.height[0]);
+				*(unsigned int*)all->var.dst = *(unsigned int*)all->var.src;
+
+			}
+			else
+				{
+					my_mlx_pixel_put(all, i, y, all->var.color);
+			}
 			y++;
 		}
-
-//		for (int j = 0; j < all->var.draw_start; j++)
-//			my_mlx_pixel_put(all, i, j, all->var.color);
-//		for (int j = all->var.draw_start; j < all->var.draw_end; j++)
-//			my_mlx_pixel_put(all, i, j, all->var.color);
+//
+//		while (y < all->var.draw_end)
+//		{
+//			all->var.tex_y = (int)all->var.tex_pos & (all->var.tex_height - 1);
+//			all->var.tex_pos += all->var.step;
+//			all->var.color = all->var.texture[(int)all->var.tex_num][(int)(all->var.tex_height * all->var.tex_y + all->var.tex_x)];
+//			if (all->var.side == 1)
+//				all->var.color = (all->var.color >> 1) & 8355711;
+//			for (int j = all->var.draw_start; j < all->var.draw_end; j++)
+//				my_mlx_pixel_put(all, i, j, all->var.color);
+//			y++;
+//		}
 //		for (int j = all->var.draw_end; j < all->var.screen_height; j++)
 //			my_mlx_pixel_put(all, i, j, all->var.color);
-		i++;
+    	i++;
+    
 	}
-	for (int j = 0; j < all->var.draw_start; j++)
-		my_mlx_pixel_put(all, i, j, all->var.color);
-	for (int j = all->var.draw_start; j < all->var.draw_end; j++)
-		my_mlx_pixel_put(all, i, j, all->var.color);
-	for (int j = all->var.draw_end; j < all->var.screen_height; j++)
-		my_mlx_pixel_put(all, i, j, all->var.color);
+//	for (int j = 0; j < all->var.draw_start; j++)
+//		my_mlx_pixel_put(all, i, j, all->var.color);
+//	for (int j = all->var.draw_start; j < all->var.draw_end; j++)
+//		my_mlx_pixel_put(all, i, j, all->var.color);
+//	for (int j = all->var.draw_end; j < all->var.screen_height; j++)
+//		my_mlx_pixel_put(all, i, j, all->var.color);
 
 
 	mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->mlx.img, 0, 0);
@@ -183,10 +211,7 @@ int move(int keycode, t_all *all)
 	{
 		exit(0);
 	}
-//	if (keycode == 123) 124
-//	{
-//
-//	}
+
 	draw(all);
 	return (1);
 }
@@ -236,44 +261,28 @@ int main()
 	all.var.screen_width = 640;
 	all.var.screen_height = 480;
 
-	all.var.buf = (int **)malloc(sizeof(int) * all.var.screen_height);
-	for (int i = 0; i < all.var.screen_height; i++)
-	{
-		all.var.buf[i] = (int *)malloc(sizeof(int) * all.var.screen_width);
-	}
-
-	for (int i = 0; i < all.var.screen_height; i++)
-	{
-		for (int j = 0; j < all.var.screen_width; j++)
-		{
-			all.var.buf[i][j] = 0;
-		}
-	}
-
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < all.var.tex_width * all.var.tex_height; j++)
-		{
-			all.var.texture[i][j] = 0;
-		}
-	}
-	for (int x = 0; x < all.var.tex_height; x++)
-	{
-		for (int y = 0; y < all.var.tex_height; y++)
-		{
-			all.var.xor_color = (x * 256 / all.var.tex_width) ^ (y * 256 / all.var.tex_height);
-			all.var.y_color = y * 256 / all.var.tex_height;
-			all.var.xy_color = y * 128 / all.var.tex_height + x * 128 / all.var.tex_width;
-			all.var.texture[0][64 * y + x] = 65536 * 254 * (x != y && x != all.var.tex_width - y);
-			all.var.texture[1][64 * y + x] = all.var.xy_color + 256 * all.var.xy_color + 65536 * all.var.xy_color;
-			all.var.texture[2][64 * y + x] = 256 * all.var.xy_color + 65536 * all.var.xy_color;
-			all.var.texture[3][64 * y + x] = all.var.xor_color + 256 * all.var.xor_color + 65536 * all.var.xor_color;
-			all.var.texture[4][64 * y + x] = 256 * all.var.xor_color;
-			all.var.texture[5][64 * y + x] = 65536 * 192 * (x % 16 && y % 16);
-			all.var.texture[6][64 * y + x] = 65536 * all.var.y_color;
-			all.var.texture[7][64 * y + x] = 128 + 256 * 128 + 65536 * 128;
-		}
-	}
+//	all.var.buf = (int **)malloc(sizeof(int) * all.var.screen_height);
+//	for (int i = 0; i < all.var.screen_height; i++)
+//	{
+//		all.var.buf[i] = (int *)malloc(sizeof(int) * all.var.screen_width);
+//	}
+//
+//	for (int i = 0; i < all.var.screen_height; i++)
+//	{
+//		for (int j = 0; j < all.var.screen_width; j++)
+//		{
+//			all.var.buf[i][j] = 0;
+//		}
+//	}
+//
+//	for (int i = 0; i < 8; i++)
+//	{
+//		for (int j = 0; j < all.var.tex_width * all.var.tex_height; j++)
+//		{
+//			all.var.texture[i][j] = 0;
+//		}
+//	}
+//
 
 
 	for (int i = 0; i < 24; i++)
@@ -282,9 +291,58 @@ int main()
 
 	all.mlx.mlx = mlx_init();
 	all.mlx.win = mlx_new_window(all.mlx.mlx, all.var.screen_width, all.var.screen_height, "hey");
+
 	all.mlx.img = mlx_new_image(all.mlx.mlx, all.var.screen_width, all.var.screen_height);
 	all.mlx.addr = mlx_get_data_addr(all.mlx.img, &all.mlx.bits_per_pixel, &all.mlx.line_length, &all.mlx.endian);
 
+	all.text.img = (void **)malloc(sizeof(void *) * 6);
+	all.text.addr = (char **)malloc(sizeof(char *) * 6);
+	all.text.bits_per_pixel = (int *)malloc(sizeof(int) * 6);
+	all.text.line_length = (int *)malloc(sizeof(int) * 6);
+	all.text.endian = (int *)malloc(sizeof(int) * 6);
+	all.text.width = (int *)malloc(sizeof(int) * 6);
+	all.text.height = (int *)malloc(sizeof(int) * 6);
+
+	all.text.north = (char *)malloc(sizeof(char) * 21);
+	strcpy(all.text.north, "./pics/redbrick.xpm");
+
+	all.text.img[0] = mlx_xpm_to_image(all.mlx.mlx, &all.text.north, &all.text.width[0], &all.text.height[0]);//
+	all.text.img[1] = mlx_xpm_to_image(all.mlx.mlx, &all.text.north, &all.text.width[1], &all.text.height[1]);
+	all.text.img[2] = mlx_xpm_to_image(all.mlx.mlx, &all.text.north, &all.text.width[2], &all.text.height[2]);
+	all.text.img[3] = mlx_xpm_to_image(all.mlx.mlx, &all.text.north, &all.text.width[3], &all.text.height[3]);
+	all.text.img[4] = mlx_xpm_to_image(all.mlx.mlx, &all.text.north, &all.text.width[4], &all.text.height[4]);
+//
+//	int i = 0;
+//	printf("%d\n", all.text.height[0]);
+//	while (i < 5)
+//	{
+//		all.text.addr[i] = mlx_get_data_addr(all.text.img[i],
+//											 &all.text.bits_per_pixel[i],
+//											 &all.text.line_length[i],
+//											 &all.text.endian[i]);
+//		i++;
+//	}
+//	printf("%d", all.text.img[0]);
+	all.text.addr[0] = mlx_get_data_addr(&all.text.img[0],
+										 &all.text.bits_per_pixel[0],
+										 &all.text.line_length[0],
+										 &all.text.endian[0]);
+	all.text.addr[1] = mlx_get_data_addr(&all.text.img[1],
+										 &all.text.bits_per_pixel[1],
+										 &all.text.line_length[1],
+										 &all.text.endian[1]);
+	all.text.addr[2] = mlx_get_data_addr(&all.text.img[2],
+										 &all.text.bits_per_pixel[2],
+										 &all.text.line_length[2],
+										 &all.text.endian[2]);
+	all.text.addr[3] = mlx_get_data_addr(&all.text.img[3],
+										 &all.text.bits_per_pixel[3],
+										 &all.text.line_length[3],
+										 &all.text.endian[3]);
+	all.text.addr[4] = mlx_get_data_addr(&all.text.img[4],
+										 &all.text.bits_per_pixel[4],
+										 &all.text.line_length[4],
+										 &all.text.endian[4]);
 
 	draw(&all);
 	mlx_hook(all.mlx.win, 2, 0, move, &all);
