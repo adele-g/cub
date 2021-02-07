@@ -10,6 +10,16 @@ void            my_mlx_pixel_put(t_all *all, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
+unsigned int	texpixcolor(t_texture *img, int x, int y)
+{
+	char			*addr;
+	unsigned int	color;
+
+	addr = (img->addr[0] + (y * img->line_length[0] + x * (img->bits_per_pixel[0] / 8)));
+	color = *(unsigned int*)addr;
+	return (color);
+}
+
 void 	draw(t_all *all)
 {
 	int i = 0;
@@ -80,78 +90,57 @@ void 	draw(t_all *all)
 		all->var.draw_end = all->var.line_height / 2 + all->var.screen_height / 2;
 		if (all->var.draw_end >= all->var.screen_height)
 			all->var.draw_end = all->var.screen_height - 1;
-		all->var.tex_num = all->var.map[all->var.map_x][all->var.map_y] - 1;
+
+
+		all->var.tex_num = all->var.map[all->var.map_y][all->var.map_x] - 1;
 
 		if (all->var.side == 0)
 			all->var.wall_x = all->var.pos_y + all->var.perp_wall_dist * all->var.ray_dir_y;
 		else
 			all->var.wall_x = all->var.pos_x + all->var.perp_wall_dist * all->var.ray_dir_x;
+
 		all->var.wall_x -= floor(all->var.wall_x);
 
-		all->var.tex_x = (int)(all->var.wall_x * (float)(all->text.width[0]));
+		all->var.tex_x = (all->var.wall_x * (double)(all->text.width[0]));
 //		all->var.tex_x = (int)(all->var.wall_x * (double)all->var.tex_width);
 		if (all->var.side == 0 && all->var.ray_dir_x > 0)
-			all->var.tex_x = all->var.tex_width - all->var.tex_x - 1;
+			all->var.tex_x = (int)all->text.width[0] - all->var.tex_x - 1;
 		if (all->var.side == 1 && all->var.ray_dir_y < 0)
-			all->var.tex_x = all->var.tex_width - all->var.tex_width - all->var.tex_x - 1;
-		all->var.step = 1.0 * all->var.tex_height / all->var.line_height;
-		all->var.tex_pos = (all->var.draw_start - all->var.screen_height / 2 + all->var.line_height / 2) * all->var.step;
-		//int y = all->var.draw_start;
+			all->var.tex_x = (int)all->text.width[0] - all->var.tex_x - 1;
+		all->var.step = 1.0 * (double)((int)all->text.height[0] / (int)all->text.line_length[0]);
+		all->var.tex_pos = (all->var.draw_start - all->var.screen_height / 2 + (int)all->text.line_length[0] / 2) * all->var.step;
 		int y = 0;
-		all->var.i = 0;
-
-		printf("%f\n", all->var.wall_x);
-		while (y < all->var.screen_height)
+//		if (all->->side == 0 && ray->mapX < ray->posX) // North
+		all->var.tex_x = (all->var.tex_x * all->text.width[0]) / 100;
+ 		while (y < all->var.screen_height)
 		{
 			if (y < all->var.draw_start)
 			{
-				my_mlx_pixel_put(all, i, y, all->var.color);
+				my_mlx_pixel_put(all, i, y,0x000823492);
 			}
 			else if (y >= all->var.draw_start && y <= all->var.draw_end)
 			{
-				all->text.coef = (float)all->var.line_height / (float)all->text.height[all->var.i];
+				all->text.coef = (float)all->var.line_height / (float)all->text.height[0];
 				all->var.tex_y = (float)(y - all->var.draw_start);
 				all->var.tex_y = all->var.tex_y / all->text.coef;
-
+				all->var.tex_y = (int)all->var.tex_pos & (int)(all->text.height - 1);
+				all->var.tex_pos += all->var.step;
 				if (all->var.tex_y >= all->text.height[0])
 					all->var.tex_y = all->text.height[0] - 1;
-				all->var.dst = all->text.addr[0] + (y * (int)all->text.line_length[0] + i * ((int)all->text.bits_per_pixel[0] / 8));
-				all->var.src = all->text.addr[0] + (char)((int)all->var.tex_y * all->text.line_length[0] + all->var.tex_x * ((int)all->text.bits_per_pixel[0] / 8));
-				printf("%f %d %d \n", all->var.tex_x, all->var.tex_y, all->text.height[0]);
-				*(unsigned int*)all->var.dst = *(unsigned int*)all->var.src;
-
+//				all->var.dst = all->mlx.addr + (y * (int)all->mlx.line_length + i * ((int)all->mlx.bits_per_pixel / 8));
+//				all->var.src = all->text.addr[0] + (char)((int)all->var.tex_y * all->text.line_length[0] + all->var.tex_x * ((int)all->text.bits_per_pixel[0] / 8));
+//				*(unsigned int*)all->var.dst = *(unsigned int*)all->var.src;
+//				printf("dst %d tex_x %f i %d y %d\n", all->var.dst, all->var.tex_x, i, y);
+				my_mlx_pixel_put(all, i, y, texpixcolor(&all->text, i, y));
 			}
 			else
-				{
-					my_mlx_pixel_put(all, i, y, all->var.color);
+			{
+				my_mlx_pixel_put(all, i, y, 0x0093874);
 			}
 			y++;
 		}
-//
-//		while (y < all->var.draw_end)
-//		{
-//			all->var.tex_y = (int)all->var.tex_pos & (all->var.tex_height - 1);
-//			all->var.tex_pos += all->var.step;
-//			all->var.color = all->var.texture[(int)all->var.tex_num][(int)(all->var.tex_height * all->var.tex_y + all->var.tex_x)];
-//			if (all->var.side == 1)
-//				all->var.color = (all->var.color >> 1) & 8355711;
-//			for (int j = all->var.draw_start; j < all->var.draw_end; j++)
-//				my_mlx_pixel_put(all, i, j, all->var.color);
-//			y++;
-//		}
-//		for (int j = all->var.draw_end; j < all->var.screen_height; j++)
-//			my_mlx_pixel_put(all, i, j, all->var.color);
     	i++;
-    
 	}
-//	for (int j = 0; j < all->var.draw_start; j++)
-//		my_mlx_pixel_put(all, i, j, all->var.color);
-//	for (int j = all->var.draw_start; j < all->var.draw_end; j++)
-//		my_mlx_pixel_put(all, i, j, all->var.color);
-//	for (int j = all->var.draw_end; j < all->var.screen_height; j++)
-//		my_mlx_pixel_put(all, i, j, all->var.color);
-
-
 	mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->mlx.img, 0, 0);
 }
 
@@ -211,7 +200,30 @@ int move(int keycode, t_all *all)
 	{
 		exit(0);
 	}
-
+	if (keycode == 124)
+	{
+		if (all->var.map[(int) (all->var.pos_x + all->var.plane_x *
+												 all->var.move_speed)][(int) all->var.pos_y] ==
+			0)
+			all->var.pos_x += all->var.plane_x * all->var.move_speed;
+		if (all->var.map[(int) all->var.pos_x][(int) (all->var.pos_y +
+													  all->var.plane_y *
+													  all->var.move_speed)] ==
+			0)
+			all->var.pos_y += all->var.plane_y * all->var.move_speed;
+	}
+	if (keycode == 123)
+	{
+		if (all->var.map[(int) (all->var.pos_x - all->var.plane_x *
+												 all->var.move_speed)][(int) all->var.pos_y] ==
+			0)
+			all->var.pos_x -= all->var.plane_x * all->var.move_speed;
+		if (all->var.map[(int) all->var.pos_x][(int) (all->var.pos_y -
+													  all->var.plane_y *
+													  all->var.move_speed)] ==
+			0)
+			all->var.pos_y -= all->var.plane_y * all->var.move_speed;
+	}
 	draw(all);
 	return (1);
 }
@@ -260,31 +272,7 @@ int main()
 	all.var.plane_y = 0.66;
 	all.var.screen_width = 640;
 	all.var.screen_height = 480;
-
-//	all.var.buf = (int **)malloc(sizeof(int) * all.var.screen_height);
-//	for (int i = 0; i < all.var.screen_height; i++)
-//	{
-//		all.var.buf[i] = (int *)malloc(sizeof(int) * all.var.screen_width);
-//	}
-//
-//	for (int i = 0; i < all.var.screen_height; i++)
-//	{
-//		for (int j = 0; j < all.var.screen_width; j++)
-//		{
-//			all.var.buf[i][j] = 0;
-//		}
-//	}
-//
-//	for (int i = 0; i < 8; i++)
-//	{
-//		for (int j = 0; j < all.var.tex_width * all.var.tex_height; j++)
-//		{
-//			all.var.texture[i][j] = 0;
-//		}
-//	}
-//
-
-
+	
 	for (int i = 0; i < 24; i++)
 		for (int j = 0; j < 24; j++)
 			all.var.map[i][j] = world_map[i][j];
@@ -303,43 +291,32 @@ int main()
 	all.text.width = (int *)malloc(sizeof(int) * 6);
 	all.text.height = (int *)malloc(sizeof(int) * 6);
 
-	all.text.north = (char *)malloc(sizeof(char) * 21);
-	strcpy(all.text.north, "./pics/redbrick.xpm");
+	all.text.path = (char *)malloc(sizeof(char) * 21);
+	strcpy(all.text.path, "../pics/redbrick.xpm");
 
-	all.text.img[0] = mlx_xpm_to_image(all.mlx.mlx, &all.text.north, &all.text.width[0], &all.text.height[0]);//
-	all.text.img[1] = mlx_xpm_to_image(all.mlx.mlx, &all.text.north, &all.text.width[1], &all.text.height[1]);
-	all.text.img[2] = mlx_xpm_to_image(all.mlx.mlx, &all.text.north, &all.text.width[2], &all.text.height[2]);
-	all.text.img[3] = mlx_xpm_to_image(all.mlx.mlx, &all.text.north, &all.text.width[3], &all.text.height[3]);
-	all.text.img[4] = mlx_xpm_to_image(all.mlx.mlx, &all.text.north, &all.text.width[4], &all.text.height[4]);
-//
-//	int i = 0;
-//	printf("%d\n", all.text.height[0]);
-//	while (i < 5)
-//	{
-//		all.text.addr[i] = mlx_get_data_addr(all.text.img[i],
-//											 &all.text.bits_per_pixel[i],
-//											 &all.text.line_length[i],
-//											 &all.text.endian[i]);
-//		i++;
-//	}
-//	printf("%d", all.text.img[0]);
-	all.text.addr[0] = mlx_get_data_addr(&all.text.img[0],
-										 &all.text.bits_per_pixel[0],
-										 &all.text.line_length[0],
-										 &all.text.endian[0]);
-	all.text.addr[1] = mlx_get_data_addr(&all.text.img[1],
+	all.text.img[0] = mlx_xpm_file_to_image(all.mlx.mlx, all.text.path, &all.text.width[0], &all.text.height[0]);
+	all.text.img[1] = mlx_xpm_file_to_image(all.mlx.mlx, all.text.path, &all.text.width[1], &all.text.height[1]);
+	all.text.img[2] = mlx_xpm_file_to_image(all.mlx.mlx, all.text.path, &all.text.width[2], &all.text.height[2]);
+	all.text.img[3] = mlx_xpm_file_to_image(all.mlx.mlx, all.text.path, &all.text.width[3], &all.text.height[3]);
+	all.text.img[4] = mlx_xpm_file_to_image(all.mlx.mlx, all.text.path, &all.text.width[4], &all.text.height[4]);
+
+	all.text.addr[0] = mlx_get_data_addr(all.text.img[0],
+			&all.text.bits_per_pixel[0],
+			&all.text.line_length[0],
+			&all.text.endian[0]);
+	all.text.addr[1] = mlx_get_data_addr(all.text.img[1],
 										 &all.text.bits_per_pixel[1],
 										 &all.text.line_length[1],
 										 &all.text.endian[1]);
-	all.text.addr[2] = mlx_get_data_addr(&all.text.img[2],
+	all.text.addr[2] = mlx_get_data_addr(all.text.img[2],
 										 &all.text.bits_per_pixel[2],
 										 &all.text.line_length[2],
 										 &all.text.endian[2]);
-	all.text.addr[3] = mlx_get_data_addr(&all.text.img[3],
+	all.text.addr[3] = mlx_get_data_addr(all.text.img[3],
 										 &all.text.bits_per_pixel[3],
 										 &all.text.line_length[3],
 										 &all.text.endian[3]);
-	all.text.addr[4] = mlx_get_data_addr(&all.text.img[4],
+	all.text.addr[4] = mlx_get_data_addr(all.text.img[4],
 										 &all.text.bits_per_pixel[4],
 										 &all.text.line_length[4],
 										 &all.text.endian[4]);

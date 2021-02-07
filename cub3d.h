@@ -26,7 +26,7 @@ typedef struct s_texture
 	int			*width;
 	int 		*height;
 	float 		coef;
-	char		*north;
+	char		*path;
 
 }				t_texture;
 
@@ -63,12 +63,6 @@ typedef struct		s_var
 	int map[24][24];
 	int line_height;
 	int color;
-	int **buf;
-	int texture[8][64 * 64];
-	int xor_color;
-	int y_color;
-	int x_color;
-	int xy_color;
 	int tex_num;
 	double wall_x;
 	double tex_x;
