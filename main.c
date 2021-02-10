@@ -84,8 +84,8 @@ void 	draw(t_all *all)
 
 		all->var.line_height = (int)(all->var.screen_height / all->var.perp_wall_dist);
 		all->var.draw_start = -all->var.line_height / 2 + all->var.screen_height / 2;
-		if (all->var.draw_start < 0)
-			all->var.draw_start = 0;
+//		if (all->var.draw_start < 0)
+//			all->var.draw_start = 0;
 
 		all->var.draw_end = all->var.line_height / 2 + all->var.screen_height / 2;
 		if (all->var.draw_end >= all->var.screen_height)
@@ -101,17 +101,22 @@ void 	draw(t_all *all)
 
 		all->var.wall_x -= floor(all->var.wall_x);
 
-		all->var.tex_x = (all->var.wall_x * (double)(all->text.width[0]));
-//		all->var.tex_x = (int)(all->var.wall_x * (double)all->var.tex_width);
+
+
 		if (all->var.side == 0 && all->var.ray_dir_x > 0)
 			all->var.tex_x = (int)all->text.width[0] - all->var.tex_x - 1;
 		if (all->var.side == 1 && all->var.ray_dir_y < 0)
 			all->var.tex_x = (int)all->text.width[0] - all->var.tex_x - 1;
-		all->var.step = 1.0 * (double)((int)all->text.height[0] / (int)all->text.line_length[0]);
-		all->var.tex_pos = (all->var.draw_start - all->var.screen_height / 2 + (int)all->text.line_length[0] / 2) * all->var.step;
+
+		all->var.tex_x = (int)(all->var.wall_x * (double)(all->text.width[0]));
+
+		all->var.step = 1.0 * (all->text.height[0] / (int)all->var.line_height);
+
+
+		all->var.tex_pos = (all->var.draw_start - all->var.screen_height / 2 + all->text.line_length[0] / 2) * all->var.step;
 		int y = 0;
 //		if (all->->side == 0 && ray->mapX < ray->posX) // North
-		all->var.tex_x = (all->var.tex_x * all->text.width[0]) / 100;
+//		all->var.tex_x = (all->var.tex_x * all->text.width[0]) / 100;
  		while (y < all->var.screen_height)
 		{
 			if (y < all->var.draw_start)
@@ -120,30 +125,27 @@ void 	draw(t_all *all)
 			}
 			else if (y >= all->var.draw_start && y <= all->var.draw_end)
 			{
-				all->text.coef = (float)all->var.line_height / (float)all->text.height[0];
+				all->text.coef = (float)all->var.line_height/(float)all->text.height[0];
 				all->var.tex_y = (float)(y - all->var.draw_start);
 				all->var.tex_y = all->var.tex_y / all->text.coef;
-				all->var.tex_y = (int)all->var.tex_pos & (int)(all->text.height - 1);
-				all->var.tex_pos += all->var.step;
 				if (all->var.tex_y >= all->text.height[0])
+				{
 					all->var.tex_y = all->text.height[0] - 1;
-//				all->var.dst = all->mlx.addr + (y * (int)all->mlx.line_length + i * ((int)all->mlx.bits_per_pixel / 8));
-//				all->var.src = all->text.addr[0] + (char)((int)all->var.tex_y * all->text.line_length[0] + all->var.tex_x * ((int)all->text.bits_per_pixel[0] / 8));
-//				*(unsigned int*)all->var.dst = *(unsigned int*)all->var.src;
-//				printf("dst %d tex_x %f i %d y %d\n", all->var.dst, all->var.tex_x, i, y);
-				my_mlx_pixel_put(all, i, y, texpixcolor(&all->text, i, y));
+				}
+
+				all->var.dst = all->mlx.addr + (y * all->mlx.line_length + i * (all->mlx.bits_per_pixel / 8));
+				all->var.src = all->text.addr[0] + ((int)all->var.tex_y * all->text.line_length[0] + all->var.tex_x * (all->text.bits_per_pixel[0] / 8));
+				*(unsigned int*)all->var.dst = *(unsigned int*)all->var.src;
 			}
 			else
-			{
 				my_mlx_pixel_put(all, i, y, 0x0093874);
-			}
 			y++;
 		}
     	i++;
 	}
 	mlx_put_image_to_window(all->mlx.mlx, all->mlx.win, all->mlx.img, 0, 0);
 }
-
+//my_mlx_pixel_put(all, i, y, texpixcolor(&all->text, i, y));
 int move(int keycode, t_all *all)
 {
 	if (keycode == 13)
@@ -270,8 +272,8 @@ int main()
 	all.var.dir_y = 0;
 	all.var.plane_x = 0;
 	all.var.plane_y = 0.66;
-	all.var.screen_width = 640;
-	all.var.screen_height = 480;
+	all.var.screen_width = 1920;
+	all.var.screen_height = 1080;
 	
 	for (int i = 0; i < 24; i++)
 		for (int j = 0; j < 24; j++)
