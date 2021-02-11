@@ -2,4 +2,5 @@
 a.out
 cmake-build-debug
 .vim
+.gitignore
 

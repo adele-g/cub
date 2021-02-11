@@ -21,15 +21,15 @@
   </component>
   <component name="CMakeSettings">
     <configurations>
-      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" ENABLED="true" />
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
     </configurations>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6bde0bdb-825d-4cf7-9b80-7920ced5e419" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/cub3d.dir/main.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/cub3d.dir/main.c.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/cub3d" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cub3d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cub3d.h" beforeDir="false" afterPath="$PROJECT_DIR$/cub3d.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -60,9 +60,14 @@
     <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RunManager">
-    <configuration name="cub3d" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cub3d" TARGET_NAME="cub3d" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="cub3d" RUN_TARGET_NAME="cub3d">
+    <configuration name="cub3d" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cub3d" TARGET_NAME="cub3d" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="cub3d" RUN_TARGET_NAME="cub3d">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
   </component>
@@ -96,7 +101,8 @@
       <workItem from="1612804444641" duration="390000" />
       <workItem from="1612862868603" duration="1162000" />
       <workItem from="1612948392653" duration="10752000" />
-      <workItem from="1612969193482" duration="805000" />
+      <workItem from="1612969193482" duration="2835000" />
+      <workItem from="1613038095445" duration="4141000" />
     </task>
     <servers />
   </component>
@@ -114,5 +120,59 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1027" y="231" width="2680" height="1377" key="DiffContextDialog" timestamp="1613047779673">
+      <screen x="0" y="23" width="2880" height="1597" />
+    </state>
+    <state x="1027" y="231" width="2680" height="1377" key="DiffContextDialog/0.23.2880.1597@0.23.2880.1597" timestamp="1613047779673" />
+    <state width="2838" height="424" key="GridCell.Tab.0.bottom" timestamp="1613047778963">
+      <screen x="0" y="23" width="2880" height="1597" />
+    </state>
+    <state width="2838" height="424" key="GridCell.Tab.0.bottom/0.23.2880.1597@0.23.2880.1597" timestamp="1613047778963" />
+    <state width="2838" height="424" key="GridCell.Tab.0.center" timestamp="1613047778962">
+      <screen x="0" y="23" width="2880" height="1597" />
+    </state>
+    <state width="2838" height="424" key="GridCell.Tab.0.center/0.23.2880.1597@0.23.2880.1597" timestamp="1613047778962" />
+    <state width="2838" height="424" key="GridCell.Tab.0.left" timestamp="1613047778962">
+      <screen x="0" y="23" width="2880" height="1597" />
+    </state>
+    <state width="2838" height="424" key="GridCell.Tab.0.left/0.23.2880.1597@0.23.2880.1597" timestamp="1613047778962" />
+    <state width="2838" height="424" key="GridCell.Tab.0.right" timestamp="1613047778963">
+      <screen x="0" y="23" width="2880" height="1597" />
+    </state>
+    <state width="2838" height="424" key="GridCell.Tab.0.right/0.23.2880.1597@0.23.2880.1597" timestamp="1613047778963" />
+    <state width="2838" height="565" key="GridCell.Tab.1.bottom" timestamp="1613041828163">
+      <screen x="0" y="23" width="2880" height="1597" />
+    </state>
+    <state width="2838" height="565" key="GridCell.Tab.1.bottom/0.23.2880.1597@0.23.2880.1597" timestamp="1613041828163" />
+    <state width="2838" height="565" key="GridCell.Tab.1.center" timestamp="1613041828162">
+      <screen x="0" y="23" width="2880" height="1597" />
+    </state>
+    <state width="2838" height="565" key="GridCell.Tab.1.center/0.23.2880.1597@0.23.2880.1597" timestamp="1613041828162" />
+    <state width="2838" height="565" key="GridCell.Tab.1.left" timestamp="1613041828162">
+      <screen x="0" y="23" width="2880" height="1597" />
+    </state>
+    <state width="2838" height="565" key="GridCell.Tab.1.left/0.23.2880.1597@0.23.2880.1597" timestamp="1613041828162" />
+    <state width="2838" height="565" key="GridCell.Tab.1.right" timestamp="1613041828163">
+      <screen x="0" y="23" width="2880" height="1597" />
+    </state>
+    <state width="2838" height="565" key="GridCell.Tab.1.right/0.23.2880.1597@0.23.2880.1597" timestamp="1613041828163" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/main.c</url>
+          <line>243</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="CMakeRunConfiguration">
+        <watch expression="all.var.map" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
