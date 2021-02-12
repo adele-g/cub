@@ -266,7 +266,7 @@ int main()
 
 	all.var.rot_speed = 0.05;
 	all.var.move_speed = 0.3;
-	all.var.pos_x = 22;
+	all.var.pos_x = 22;//поменять позицию игрока x, y
 	all.var.pos_y = 12;
 	all.var.dir_x = -1;
 	all.var.dir_y = 0;
