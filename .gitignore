@@ -3,4 +3,6 @@ a.out
 cmake-build-debug
 .vim
 .gitignore
+CMakeLists.txt
+.idea
 
