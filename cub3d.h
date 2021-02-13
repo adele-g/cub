@@ -60,7 +60,7 @@ typedef struct		s_var
 	double rot_speed;
 	double old_dir_x;
 	double old_plane_x;
-	int map[24][24];
+	int map[5][5];
 	int line_height;
 	int color;
 	int tex_num;
