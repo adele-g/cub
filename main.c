@@ -244,7 +244,7 @@ int move(int keycode, t_all *all)
 int main()
 {
 	t_all all;
-
+  
 	int world_map[5][5] =
 			{
 					{1, 1, 1, 1, 1},
@@ -264,7 +264,7 @@ int main()
 	all.var.plane_y			= 0.66;
 	all.var.screen_width	= 800;
 	all.var.screen_height	= 600;
-	
+  
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 5; j++)
 			all.var.map[i][j] = world_map[i][j];
