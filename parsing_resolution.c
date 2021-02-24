@@ -32,7 +32,7 @@ void			parser_resolution(char *data, t_all *all)
 	data++;
 	data = remove_space(data);
 	if ((check_value(data)) == -1)
-		ft_exit("trash in value of resolution");
+		ft_exit("trash in value of resolution", all);
 	all->var.screen_width = ft_atoi(data);
 	data = remove_num(data);
 	data = remove_space(data);
@@ -41,11 +41,11 @@ void			parser_resolution(char *data, t_all *all)
 	while (*data != '\0')
 	{
 		if (*data++ != ' ')
-			ft_exit("wrong value after resolution");
+			ft_exit("wrong value after resolution", all);
 	}
 	all->var.flag += 0.00000001;
 	if ((check_resolution(all)) == -1)
-		ft_exit("wrong resolution");
+		ft_exit("wrong resolution", all);
 }
 
 long int		ft_atoi(char *str)
@@ -58,7 +58,7 @@ long int		ft_atoi(char *str)
 	if (*str == '\0')
 		return (-1);
 	while (*str == ' ' || *str == '\t' || *str == '\n'
-		   || *str == '\v' || *str == '\f' || *str == '\r')
+	|| *str == '\v' || *str == '\f' || *str == '\r')
 		str++;
 	if (*str == '+' || *str == '-')
 	{

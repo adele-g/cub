@@ -10,7 +10,7 @@ void			parser_map(t_all *all)
 	while (i < all->var.num_of_colum)
 	{
 		if ((check_data(all->var.map[i])) == -1)
-			ft_exit("trash in map");
+			ft_exit("trash in map", all);
 		i++;
 	}
 	i = 0;
@@ -20,19 +20,19 @@ void			parser_map(t_all *all)
 		all->var.num_of_eof++;
 	}
 	i++;
-	if (all->var.num_of_colum - all->var.num_of_eof < 2)
-		ft_exit("too little lines for playing");
+	if (all->var.num_of_colum - all->var.num_of_eof < 3)
+		ft_exit("too little lines for playing", all);
 	if (check_first_line(all, i, j) == -1)
-		ft_exit("unclosed map");
+		ft_exit("unclosed map", all);
 	check_all_map(all, i);
 }
 
 void			make_map(t_all *all, char *data)
 {
 	if (!(all->var.map[all->var.num_of_colum] =
-				  ft_calloc(all->var.num_of_char, sizeof(char))))
-		ft_exit("malloc");
-	all->var.map[all->var.num_of_colum] = data;
+			ft_calloc(all->var.num_of_char, sizeof(char))))
+		ft_exit("malloc", all);
+	ft_strcpy(all->var.map[all->var.num_of_colum], data);
 	all->var.num_of_colum++;
 }
 

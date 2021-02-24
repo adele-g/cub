@@ -22,11 +22,11 @@ void			find_spec(char *data, t_all *all)
 	else if (data[i] == 'S')
 		parser_path(data, all, 4);
 	else if (data[i] == '1' || data[i] == '0' || data[i] == ' ' ||
-			 data[i] == '\0')
+	data[i] == '\0')
 		make_map(all, data);
 	else if (!(data[i] == '1' || data[i] == '0' || data[i] == ' ' ||
-			   data[i] == '\n' || data[i] == '\0'))
-		ft_exit("invalid characters");
+	data[i] == '\n' || data[i] == '\0'))
+		ft_exit("invalid characters", all);
 }
 
 void			count_chars(char *data, t_all *all)

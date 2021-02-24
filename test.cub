@@ -5,10 +5,10 @@ WE ./pics/wood.xpm
 EA ./pics/greystone.xpm
 S ./pics/barrel.xpm
 
-F     220,        100,    0
-C   225 ,                  30 ,     0
+F                            255,        255,    0
+C   0 ,                  0 ,     0
 
 111111111
-100010001
-1000S0001
+102010201
+102220E01
 111111111

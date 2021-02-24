@@ -39,7 +39,7 @@ void			check_inside_map(t_all *all, int i, int j)
 		{
 			if (all->var.map[i + y][j + x] == ' ' ||
 				all->var.map[i + y][j + x] == '\0')
-				ft_exit("wrong map");
+				ft_exit("wrong map", all);
 			x++;
 		}
 		y++;
@@ -64,9 +64,9 @@ void			check_in_map(t_all *all, int i)
 		i++;
 	}
 	if (check_last_line(all, i) == -1)
-		ft_exit("broken last line");
+		ft_exit("broken last line", all);
 	if (check_from_top_to_bottom(all, i) == -1)
-		ft_exit("broken map in last row");
+		ft_exit("broken map in last row", all);
 }
 
 int				check_first_row(t_all *all, int i)
@@ -89,10 +89,14 @@ int				check_first_row(t_all *all, int i)
 void			check_all_map(t_all *all, int i)
 {
 	if (check_map_eof(all, i) == -1)
-		ft_exit("we can't use broken map");
+		ft_exit("we can't use broken map", all);
 	if (check_player(all, i) != 1)
-		ft_exit("something wrong with player");
+		ft_exit("something wrong with player", all);
 	if (check_first_row(all, i) == -1)
-		ft_exit("broken map");
+		ft_exit("broken map", all);
+	if (check_sprite(all, i) == -1)
+		ft_exit("no sprites", all);
+	all->sprite = ft_calloc(all->var.num_sprites, sizeof(t_sprite));
+	find_sprite(all, i);
 	check_in_map(all, i);
 }

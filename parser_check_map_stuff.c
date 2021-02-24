@@ -1,6 +1,5 @@
 #include "parser.h"
 
-
 int				check_first_line(t_all *all, int i, int j)
 {
 	i--;
@@ -43,8 +42,8 @@ int				check_player(t_all *all, int i)
 				all->var.map[i][j] == 'E' || all->var.map[i][j] == 'N')
 			{
 				res++;
-				all->var.pos_x = i;
-				all->var.pos_y = j;
+				all->var.pos_x = i + 0.5;
+				all->var.pos_y = j + 0.5;
 				set_player(all, all->var.map[i][j]);
 				all->var.map[i][j] = '0';
 			}
@@ -67,7 +66,10 @@ int				check_sprite(t_all *all, int i)
 		while (all->var.map[i][j])
 		{
 			if (all->var.map[i][j] == '2')
+			{
+				all->var.num_sprites++;
 				res++;
+			}
 			j++;
 		}
 		i++;
