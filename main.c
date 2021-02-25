@@ -3,7 +3,7 @@
 void 	draw(t_all *all)
 {
 	int i;
-	int k;
+	unsigned int k;
 
 	i = 0;
 	k = 0;
@@ -37,6 +37,8 @@ int		main(int argc, char **argv)
 		ft_init_parser(&all);
 		ft_parser(argv[1], &all);
 	}
+	if (argc == 3 && check_save(argv[2]) == -1)
+		ft_exit("wrong argv", &all);
 	init(&all);
 	init_textures(&all);
 	draw(&all);
@@ -45,6 +47,7 @@ int		main(int argc, char **argv)
 	mlx_hook(all.mlx.win, 2, 0, move, &all);
 	mlx_hook(all.mlx.win, 17, 17, ft_close, &all);
 	mlx_loop(all.mlx.mlx);
-	ft_free(&all);
-	exit(1);
+	mlx_destroy_image(all.mlx.mlx, all.mlx.img);
+	mlx_destroy_window(all.mlx.mlx, all.mlx.win);
+	exit(0);
 }

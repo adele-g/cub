@@ -14,7 +14,7 @@ void	raycasting_init(t_all *all, int i)
 	all->var.map_y = (int)all->var.pos_y;
 }
 
-void	calc_step(t_all *all, int i)
+void	calc_step(t_all *all)
 {
 	if (all->var.ray_dir_x < 0)
 	{

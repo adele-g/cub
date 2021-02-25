@@ -25,7 +25,7 @@ void	find_sprite(t_all *all, int i)
 
 void	find_distance(t_all *all)
 {
-	int i;
+	unsigned int i;
 
 	i = 0;
 	while (i < all->var.num_sprites)
@@ -70,22 +70,30 @@ void	set_player(t_all *all, char name)
 {
 	if (name == 'N')
 	{
-		all->var.dir_x = -1;
+		all->var.plane_x = 0;
 		all->var.plane_y = 0.66;
+		all->var.dir_x = -1;
+		all->var.dir_y = 0;
 	}
 	else if (name == 'S')
 	{
-		all->var.dir_x = 1;
+		all->var.plane_x = 0;
 		all->var.plane_y = -0.66;
+		all->var.dir_x = 1;
+		all->var.dir_y = 0;
 	}
 	else if (name == 'W')
 	{
-		all->var.dir_x = -1;
-		all->var.plane_y = -0.66;
+		all->var.plane_x = -0.66;
+		all->var.plane_y = 0;
+		all->var.dir_x = 0;
+		all->var.dir_y = -1;
 	}
 	else if (name == 'E')
 	{
-		all->var.dir_y = 1;
 		all->var.plane_x = 0.66;
+		all->var.plane_y = 0;
+		all->var.dir_x = 0;
+		all->var.dir_y = 1;
 	}
 }

@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-void	sprite_count(t_all *all, int k)
+void	sprite_count(t_all *all, unsigned int k)
 {
 	all->var.sprite_x = all->sprite[k].x - all->var.pos_x + 0.5;
 	all->var.sprite_y = all->sprite[k].y - all->var.pos_y + 0.5;

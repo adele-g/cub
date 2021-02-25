@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "cub3d.h"
 
 void			parser_map(t_all *all)
 {
@@ -7,6 +8,9 @@ void			parser_map(t_all *all)
 
 	i = 0;
 	j = 0;
+	if (check_map_null(all))
+		ft_exit("no map", all);
+
 	while (i < all->var.num_of_colum)
 	{
 		if ((check_data(all->var.map[i])) == -1)
@@ -46,6 +50,8 @@ int				count_line_breaks(t_all *all, int fd)
 		free(buf);
 		return (-1);
 	}
+	else
+		free(buf);
 	while ((get_next_line(fd, &buf)) > 0)
 	{
 		count_chars(buf, all);
@@ -69,4 +75,23 @@ int				ft_check_cub(const char *data)
 	if (data[i] == 'b' && data[i - 1] == 'u' && data[i - 2] == 'c' &&
 		data[i - 3] == '.')
 		return (1);
+	return (-1);
+}
+
+int				check_map_null(t_all *all)
+{
+	int i;
+	int res;
+
+	i = 0;
+	res = 0;
+	while (i < all->var.num_of_colum)
+	{
+		if (all->var.map[i][0] == '\0')
+			res++;
+		i++;
+	}
+	if (res == all->var.num_of_colum)
+		return (1);
+	return (0);
 }

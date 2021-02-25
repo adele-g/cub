@@ -45,7 +45,7 @@ void	create_bmp(t_all *all)
 
 	height = all->var.screen_height;
 	str = all->mlx.addr;
-	if (!(fd = open("pic.bmp", O_CREAT | O_WRONLY | O_TRUNC | O_APPEND, 0.666)))
+	if (!(fd = open("pic.bmp", O_CREAT | O_WRONLY | O_TRUNC | O_APPEND, 0644)))
 		ft_exit("can't create bmp file", all);
 	create_header(all, fd);
 	create_bmp_inside(all, fd);

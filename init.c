@@ -28,30 +28,41 @@ void	init_textures(t_all *all)
 
 void	init_img_mlx(t_all *all)
 {
-	all->text.img = (void **)malloc(sizeof(void *) * 6);
-	all->text.addr = (char **)malloc(sizeof(char *) * 6);
-	all->text.bits_per_pixel = (int *)malloc(sizeof(int) * 6);
-	all->text.line_length = (int *)malloc(sizeof(int) * 6);
-	all->text.endian = (int *)malloc(sizeof(int) * 6);
-	all->text.width = (int *)malloc(sizeof(int) * 6);
-	all->text.height = (int *)malloc(sizeof(int) * 6);
+	if (!(all->text.img = (void **)malloc(sizeof(void *) * 6)))
+		ft_exit("malloc", all);
+	if (!(all->text.addr = (char **)malloc(sizeof(char *) * 6)))
+		ft_exit("malloc", all);
+	if (!(all->text.bits_per_pixel = (int *)malloc(sizeof(int) * 6)))
+		ft_exit("malloc", all);
+	if (!(all->text.line_length = (int *)malloc(sizeof(int) * 6)))
+		ft_exit("malloc", all);
+	if (!(all->text.endian = (int *)malloc(sizeof(int) * 6)))
+		ft_exit("malloc", all);
+	if (!(all->text.width = (int *)malloc(sizeof(int) * 6)))
+		ft_exit("malloc", all);
+	if (!(all->text.height = (int *)malloc(sizeof(int) * 6)))
+		ft_exit("malloc", all);
 }
 
 void	init_mlx(t_all *all)
 {
 	all->mlx.mlx = mlx_init();
-	all->mlx.win = mlx_new_window(all->mlx.mlx, all->var.screen_width,
-	all->var.screen_height, "cub3D");
-	all->mlx.img = mlx_new_image(all->mlx.mlx, all->var.screen_width,
-	all->var.screen_height);
-	all->mlx.addr = mlx_get_data_addr(all->mlx.img, &all->mlx.bits_per_pixel,
-	&all->mlx.line_length, &all->mlx.endian);
+	if (!(all->mlx.win = mlx_new_window(all->mlx.mlx, all->var.screen_width,
+	all->var.screen_height, "cub3D")))
+		ft_exit("malloc", all);
+	if (!(all->mlx.img = mlx_new_image(all->mlx.mlx, all->var.screen_width,
+	all->var.screen_height)))
+		ft_exit("malloc", all);
+	if (!(all->mlx.addr = mlx_get_data_addr(all->mlx.img, &all->mlx.bits_per_pixel,
+	&all->mlx.line_length, &all->mlx.endian)))
+		ft_exit("malloc", all);
 }
 
 void	ft_init_raycasting(t_all *all)
 {
 	all->var.rot_speed = 0.1;
 	all->var.move_speed = 0.3;
-	all->var.zbuffer = (double *)malloc(sizeof(double) *
-	all->var.screen_width);
+	if (!(all->var.zbuffer = (double *)malloc(sizeof(double) *
+	all->var.screen_width)))
+		ft_exit("malloc", all);
 }

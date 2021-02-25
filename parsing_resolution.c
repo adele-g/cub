@@ -1,11 +1,16 @@
-#include "parser.h"
+#include "cub3d.h"
+#include "minilibx/mlx.h"
 
 int				check_resolution(t_all *all)
 {
-	if (all->var.screen_width > 2560)
-		all->var.screen_width = 2560;
-	if (all->var.screen_height > 1440)
-		all->var.screen_height = 1440;
+	int width;
+	int height;
+
+	mlx_get_screen_size(all->mlx.mlx, &width, &height);
+	if (all->var.screen_width > width)
+		all->var.screen_width = width;
+	if (all->var.screen_height > height)
+		all->var.screen_height = height;
 	if (all->var.screen_width <= 0 || all->var.screen_height <= 0)
 		return (-1);
 	return (1);

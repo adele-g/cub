@@ -7,7 +7,7 @@ void	raycasting_n_draw(t_all *all, int i)
 
 	y = 0;
 	raycasting_init(all, i);
-	calc_step(all, i);
+	calc_step(all);
 	dda(all);
 	raycast_calc(all);
 	j = choose_texture(all);

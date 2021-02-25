@@ -1,9 +1,8 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <stdio.h>
 # include <stdlib.h>
-# include <mlx.h>
+# include "minilibx/mlx.h"
 # include <math.h>
 # include "./get_next_line/get_next_line_bonus.h"
 # include <unistd.h>
@@ -41,11 +40,11 @@ typedef struct	s_texture
 
 typedef struct	s_sort
 {
-	int			i;
-	int			j;
-	int			tmp_x;
-	int			tmp_y;
-	double		tmp_dist;
+	unsigned int	i;
+	unsigned int	j;
+	int				tmp_x;
+	int				tmp_y;
+	double			tmp_dist;
 }				t_sort;
 
 typedef struct	s_var
@@ -110,6 +109,8 @@ typedef struct	s_var
 	int				num_of_char;
 	int				d;
 	unsigned int	color;
+	int				comma_c_color;
+	int				comma_f_color;
 
 }				t_var;
 
@@ -167,14 +168,13 @@ void			count_chars(char *data, t_all *all);
 int				count_line_breaks(t_all *all, int fd);
 void			init_color(t_color *color);
 void			ft_init_parser(t_all *all);
-void			ft_free(t_all *all);
 int				ft_check_cub(const char *data);
 void			find_sprite(t_all *all, int i);
 void			find_distance(t_all *all);
 void			sort(t_all *all);
 void			create_bmp(t_all *all);
 void			raycasting_init(t_all *all, int i);
-void			calc_step(t_all *all, int i);
+void			calc_step(t_all *all);
 void			dda(t_all *all);
 void			raycast_calc(t_all *al);
 int				choose_texture(t_all *all);
@@ -183,7 +183,7 @@ void			raycasting_n_draw(t_all *all, int i);
 void			my_mlx_pixel_put(t_all *all, int x, int y, int color);
 unsigned int	text_pix_color(t_all *all, int x, int y);
 int				rgb(t_color color);
-void			sprite_count(t_all *all, int k);
+void			sprite_count(t_all *all, unsigned int k);
 void			sprite_count_draw(t_all *all);
 void			sprite_draw(t_all *all);
 void			create_header(t_all *all, int fd);
@@ -205,5 +205,6 @@ void			key_right(t_all *all);
 void			key_left(t_all *all);
 size_t			ft_strcpy(char *dst, const char *src);
 void			check_fd(int fd, char *file, t_all *all);
+int				check_map_null(t_all *all);
 
 #endif

@@ -32,6 +32,7 @@ int		move(int keycode, t_all *all)
 		key_left(all);
 	if (keycode == 53)
 	{
+		mlx_destroy_image(all->mlx.mlx, all->mlx.img);
 		mlx_destroy_window(all->mlx.mlx, all->mlx.win);
 		exit(0);
 	}
@@ -40,12 +41,13 @@ int		move(int keycode, t_all *all)
 	if (keycode == 123)
 		key_left_rot(all);
 	draw(all);
+	mlx_do_sync(all->mlx.mlx);
 	return (1);
 }
 
 int		ft_close(t_all *all)
 {
+	mlx_destroy_image(all->mlx.mlx, all->mlx.img);
 	mlx_destroy_window(all->mlx.mlx, all->mlx.win);
-	ft_free(all);
-	exit(1);
+	exit(0);
 }
