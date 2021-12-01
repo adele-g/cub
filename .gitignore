@@ -1,7 +1,0 @@
-.DS_store
-a.out
-cmake-build-debug
-.vim
-.gitignore
-CMakeLists.txt
-.idea
